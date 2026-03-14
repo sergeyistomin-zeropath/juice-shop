@@ -69,6 +69,10 @@ export function runDiagnostic () {
       res.status(400).json({ error: 'tool query parameter required' })
       return
     }
+    if (!/^[a-zA-Z0-9_-]+$/.test(tool)) {
+      res.status(400).json({ error: 'tool query parameter invalid' })
+      return
+    }
     const output = shell.exec(`integration-check --tool ${tool}`, { silent: true })
     res.json({ stdout: output.stdout, stderr: output.stderr, code: output.code })
   }
